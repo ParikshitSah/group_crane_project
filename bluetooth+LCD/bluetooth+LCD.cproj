@@ -140,6 +140,12 @@
     <Compile Include="main.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="playback.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="playback.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="USART.c">
       <SubType>compile</SubType>
     </Compile>

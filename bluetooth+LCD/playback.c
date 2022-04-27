@@ -5,11 +5,12 @@
  *  Author: sahp
  */ 
 
+#include "playback.h"
 
 
 void playback(void)
 {
-	motor_arr[7] = {};
+	int16_t motor_arr[7] = {};
 	
 	//load EEPROM array into motor_arr
 	stepper_playback(motor_arr[0]);
@@ -20,12 +21,14 @@ void playback(void)
 	slow_servo(motor_arr[5]);
 	OCR1A = motor_arr[6];
 
-	return();
+	return;
 
 }
 
 void stepper_playback(int16_t stepper_value)
 {
+	uint8_t stepper_index;
+	
 	if (stepper_value < 0)	//if value is negative
 	{
 		for (uint16_t i =0;i < abs(stepper_value);i++)	//repeat as many times as recorded value
@@ -52,7 +55,7 @@ void stepper_playback(int16_t stepper_value)
 	}
 }
 
-void slow_servo(servo_value)
+void slow_servo(uint16_t servo_value)
 {
 	uint16_t pwm_buf = 0;	//buffer before assigning to OCR
 	uint8_t steps = 50;	//servo_value will be divided into this many steps
@@ -63,7 +66,7 @@ void slow_servo(servo_value)
 
 	//calculate values for each variable
 	initial_value = OCR1B;
-	displacement = abs(initial_value - servo_value)
+	displacement = abs(initial_value - servo_value);
 	pwm_inc = displacement / steps;
 	inc_rem = displacement % steps;
 
@@ -78,5 +81,5 @@ void slow_servo(servo_value)
 	pwm_buf += inc_rem;	//increment last value
 	OCR1B = pwm_buf;
 
-	return();
+	return;
 }
