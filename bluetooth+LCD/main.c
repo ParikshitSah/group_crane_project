@@ -80,6 +80,7 @@ void Init_IO(void);
 void stepper_home(void);
 void startup(void);
 void manual_ctrl(void);
+void record_mode(void);
 
 int main(void)
 {
@@ -109,7 +110,7 @@ int main(void)
 			LCD_update = 0;
 		}
 
-		if (edit_mode == 1)
+		/*if (edit_mode == 1)
 		{
 			manual_ctrl();
 			
@@ -126,12 +127,23 @@ int main(void)
 				memset(rx_buffer, 0, 25); // clear the array
 				LCD_update = 0;
 			}
-		}
+		}*/
 		
 		
 	} // end superloop
 
 } /* end main */
+
+void record_mode(void)
+{
+	
+	
+	Validate();
+	if(edit_mode)
+	{
+		
+	}
+}
 
 void manual_ctrl(void)
 {
