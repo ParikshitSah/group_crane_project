@@ -63,9 +63,12 @@ char fail[25] = {"Try Again"};
 uint8_t access;
 uint8_t edit_mode;
 uint32_t number;
+int16_t toEEPROM[7] ={};
 
 uint16_t half[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08};
 uint8_t stepper_index = 0; // variable
+uint8_t record_counter = 0;
+int16_t currentMotor;
 
 // global variables
 volatile uint16_t ADC_value;
@@ -136,12 +139,10 @@ int main(void)
 
 void record_mode(void)
 {
-	
-	
 	Validate();
-	if(edit_mode)
+	while(edit_mode == 1)
 	{
-		
+		manual_ctrl();
 	}
 }
 
@@ -171,6 +172,7 @@ void manual_ctrl(void)
 			number++;
 		}
 	}
+	
 
 	if ((PINA & 0x02) != 0) // pushbutton 2
 	{
@@ -190,6 +192,72 @@ void manual_ctrl(void)
 		}
 		// rotate counter clockwise
 	}
+
+
+	
+
+	//record
+	if(LCD_update == 1 )
+	{
+
+
+		if(rx_buffer[0]== '!') 								// if record is pressed
+		{
+			if(record_counter < 7)
+			{
+				switch(record_counter)						//assign motor value
+				{
+					case 0:
+					currentMotor = number;			//stepper motor
+					break;
+
+					case 1:
+					currentMotor = OCR1A;			//arm servo
+					break;
+
+					case 2:
+					currentMotor = OCR1B;			//plunger servo
+					break;
+
+					case 3:
+					currentMotor = OCR1A;			//arm servo
+					break;
+
+					case 4:
+					currentMotor = number			//stepper motor
+					break;
+
+					case 5:
+					currentMotor = OCR1A			//arm servo
+					break;
+
+					case 6:
+					currentMotor = OCR1B;			//plunger servo
+					break;
+				}
+
+				toEEPROM[record_counter] = currentMotor;
+				String_out("Recorded");
+				record_counter++;
+			}
+			else
+			{
+				record_counter = 0;
+				String_out("Done Recording All Steps");
+				edit_mode = 0;								//exit from the function
+			}
+
+		}
+		else
+		{
+			String_out("Press only the Record Button");
+		}
+
+	
+		LCD_update = 0;
+	}
+	
+	
 }
 
 void startup(void)
