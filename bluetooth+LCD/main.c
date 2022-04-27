@@ -60,9 +60,8 @@ char rx_buffer[25] = {};
 char password[25] = {"test"};
 char sucess[25] = {"Access Granted"};
 char fail[25] = {"Try Again"};
-char greet[30] = {"Enter Password to configure"};
 uint8_t access;
-uint8_t start;
+uint8_t edit_mode;
 uint32_t number;
 
 uint16_t half[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08};
@@ -88,8 +87,29 @@ int main(void)
 
 	while (1) /* start of super loop */
 	{
+		if (LCD_update == 1) /// only chars
+		{
+			switch (rx_buffer[0])
+			{
+				case '#':			//start button pressed
+				String_out("Starting");
+				break;
+				
+				case '&':			//home button pressed
+				stepper_home();
+				break;
+				
+				case '?':			//calibrate button pressed
+				Validate();
+				
+				break;
+			}
 
-		if (start == 1)
+			memset(rx_buffer, 0, 25); // clear the array
+			LCD_update = 0;
+		}
+
+		if (edit_mode == 1)
 		{
 			manual_ctrl();
 			
@@ -98,7 +118,7 @@ int main(void)
 			{
 				switch (rx_buffer[0])
 				{
-				case '&':
+				case '!':
 					stepper_home();
 					break;
 				}
@@ -107,6 +127,8 @@ int main(void)
 				LCD_update = 0;
 			}
 		}
+		
+		
 	} // end superloop
 
 } /* end main */
@@ -168,13 +190,12 @@ void startup(void)
 
 	Init_LCD();
 	Init_USART();
-	String_out(greet);
-	Validate();
 }
 
 void Validate(void)
 {
-	while (start != 1)
+	String_out("Enter configuration password:");
+	while (edit_mode != 1)
 	{
 		if (LCD_update == 1)
 		{
@@ -189,7 +210,7 @@ void Validate(void)
 			if (access == 0)
 			{
 				String_out(sucess);
-				start = 1;
+				edit_mode = 1;
 			}
 			else
 			{
