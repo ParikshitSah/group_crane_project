@@ -576,12 +576,12 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x156f
+.debug_info     0x00000000     0x156c
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/crtatmega2560.o
  .debug_info    0x00000bbc      0x3af LCD.o
- .debug_info    0x00000f6b      0x481 main.o
- .debug_info    0x000013ec      0x183 USART.o
+ .debug_info    0x00000f6b      0x47e main.o
+ .debug_info    0x000013e9      0x183 USART.o
 
 .debug_abbrev   0x00000000      0xf42
  *(.debug_abbrev)

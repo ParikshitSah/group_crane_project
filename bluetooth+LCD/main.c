@@ -92,50 +92,7 @@ int main(void)
 		if (start == 1)
 		{
 			manual_ctrl();
-			/*if (ADC_channel == 0) // when channel one is selected, plunger
-			{
-
-				OCR1A = ((uint32_t)ADC_res0 * 25 / 16) + 2200; // assign value to servo 1
-			}
-			if (ADC_channel == 1) // when channel 2 is selected, arm
-			{
-				OCR1B = ((uint32_t)ADC_res1 * 625 / 512) + 2400; // assign value to servo 2
-			}
-
-			if ((PINA & 0x01) != 0) // pushbutton 1
-			{
-				while ((PINA & 0x01) != 0)
-				{
-					PORTC = half[stepper_index];
-
-					while (tick < 20)
-						;
-					tick = 0;
-
-					++stepper_index;
-					stepper_index = stepper_index % 8;
-					number++;
-				}
-			}
-
-			if ((PINA & 0x02) != 0) // pushbutton 2
-			{
-				while ((PINA & 0x02) != 0)
-				{
-
-					if (stepper_index == 0)
-					{
-						stepper_index = 7;
-					}
-					PORTC = half[stepper_index];
-
-					while (tick < 20);
-					tick = 0;
-					--stepper_index;
-					number--;
-				}
-				// rotate counter clockwise
-			}*/
+			
 
 			if (LCD_update == 1) /// only chars
 			{
@@ -173,8 +130,7 @@ void manual_ctrl(void)
 		{
 			PORTC = half[stepper_index];
 
-			while (tick < 20)
-			;
+			while (tick < 10);
 			tick = 0;
 
 			++stepper_index;
@@ -194,7 +150,7 @@ void manual_ctrl(void)
 			}
 			PORTC = half[stepper_index];
 
-			while (tick < 20);
+			while (tick < 10);
 			tick = 0;
 			--stepper_index;
 			number--;

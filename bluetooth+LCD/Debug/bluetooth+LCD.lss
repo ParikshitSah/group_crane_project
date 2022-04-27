@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000000d8  00000000  00000000  0000081c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000156f  00000000  00000000  000008f4  2**0
+  6 .debug_info   0000156c  00000000  00000000  000008f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000f42  00000000  00000000  00001e63  2**0
+  7 .debug_abbrev 00000f42  00000000  00000000  00001e60  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000007ad  00000000  00000000  00002da5  2**0
+  8 .debug_line   000007ad  00000000  00000000  00002da2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001e8  00000000  00000000  00003554  2**2
+  9 .debug_frame  000001e8  00000000  00000000  00003550  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000706  00000000  00000000  0000373c  2**0
+ 10 .debug_str    00000706  00000000  00000000  00003738  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000004e6  00000000  00000000  00003e42  2**0
+ 11 .debug_loc    000004e6  00000000  00000000  00003e3e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c0  00000000  00000000  00004328  2**0
+ 12 .debug_ranges 000000c0  00000000  00000000  00004324  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -414,12 +414,11 @@ void manual_ctrl(void)
  25e:	80 81       	ld	r24, Z
  260:	88 b9       	out	0x08, r24	; 8
 
-			while (tick < 20)
+			while (tick < 10);
  262:	80 91 9f 02 	lds	r24, 0x029F	; 0x80029f <tick>
  266:	90 91 a0 02 	lds	r25, 0x02A0	; 0x8002a0 <tick+0x1>
- 26a:	44 97       	sbiw	r24, 0x14	; 20
+ 26a:	0a 97       	sbiw	r24, 0x0a	; 10
  26c:	d0 f3       	brcs	.-12     	; 0x262 <manual_ctrl+0xba>
-			;
 			tick = 0;
  26e:	10 92 a0 02 	sts	0x02A0, r1	; 0x8002a0 <tick+0x1>
  272:	10 92 9f 02 	sts	0x029F, r1	; 0x80029f <tick>
@@ -482,10 +481,10 @@ void manual_ctrl(void)
  2ce:	80 81       	ld	r24, Z
  2d0:	88 b9       	out	0x08, r24	; 8
 
-			while (tick < 20);
+			while (tick < 10);
  2d2:	80 91 9f 02 	lds	r24, 0x029F	; 0x80029f <tick>
  2d6:	90 91 a0 02 	lds	r25, 0x02A0	; 0x8002a0 <tick+0x1>
- 2da:	44 97       	sbiw	r24, 0x14	; 20
+ 2da:	0a 97       	sbiw	r24, 0x0a	; 10
  2dc:	d0 f3       	brcs	.-12     	; 0x2d2 <manual_ctrl+0x12a>
 			tick = 0;
  2de:	10 92 a0 02 	sts	0x02A0, r1	; 0x8002a0 <tick+0x1>
@@ -935,10 +934,7 @@ void startup(void)
 			manual_ctrl();
  55a:	e1 f7       	brne	.-8      	; 0x554 <main+0x2>
  55c:	25 de       	rcall	.-950    	; 0x1a8 <manual_ctrl>
-					number--;
-				}
-				// rotate counter clockwise
-			}*/
+			
 
 			if (LCD_update == 1) /// only chars
  55e:	80 91 9c 02 	lds	r24, 0x029C	; 0x80029c <LCD_update>
