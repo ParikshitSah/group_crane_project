@@ -3,31 +3,31 @@ bluetooth+LCD.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000007a  00800200  0000069e  00000732  2**0
+  0 .data         00000090  00800200  0000069e  00000732  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         0000069e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000002e  0080027a  0080027a  000007ac  2**0
+  2 .bss          0000002e  00800290  00800290  000007c2  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000007ac  2**0
+  3 .comment      00000030  00000000  00000000  000007c2  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000007dc  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000007f4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000d8  00000000  00000000  0000081c  2**0
+  5 .debug_aranges 000000d8  00000000  00000000  00000834  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000014f1  00000000  00000000  000008f4  2**0
+  6 .debug_info   000014f2  00000000  00000000  0000090c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000ec2  00000000  00000000  00001de5  2**0
+  7 .debug_abbrev 00000edc  00000000  00000000  00001dfe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000074b  00000000  00000000  00002ca7  2**0
+  8 .debug_line   00000745  00000000  00000000  00002cda  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001e8  00000000  00000000  000033f4  2**2
+  9 .debug_frame  000001e8  00000000  00000000  00003420  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000706  00000000  00000000  000035dc  2**0
+ 10 .debug_str    00000706  00000000  00000000  00003608  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000049e  00000000  00000000  00003ce2  2**0
+ 11 .debug_loc    0000049e  00000000  00000000  00003d0e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c0  00000000  00000000  00004180  2**0
+ 12 .debug_ranges 000000c0  00000000  00000000  000041ac  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -169,13 +169,13 @@ Disassembly of section .text:
  102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
  104:	07 90       	elpm	r0, Z+
  106:	0d 92       	st	X+, r0
- 108:	aa 37       	cpi	r26, 0x7A	; 122
+ 108:	a0 39       	cpi	r26, 0x90	; 144
  10a:	b1 07       	cpc	r27, r17
  10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
 
 0000010e <__do_clear_bss>:
  10e:	22 e0       	ldi	r18, 0x02	; 2
- 110:	aa e7       	ldi	r26, 0x7A	; 122
+ 110:	a0 e9       	ldi	r26, 0x90	; 144
  112:	b2 e0       	ldi	r27, 0x02	; 2
  114:	01 c0       	rjmp	.+2      	; 0x118 <.do_clear_bss_start>
 
@@ -183,10 +183,10 @@ Disassembly of section .text:
  116:	1d 92       	st	X+, r1
 
 00000118 <.do_clear_bss_start>:
- 118:	a8 3a       	cpi	r26, 0xA8	; 168
+ 118:	ae 3b       	cpi	r26, 0xBE	; 190
  11a:	b2 07       	cpc	r27, r18
  11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
- 11e:	1a d2       	rcall	.+1076   	; 0x554 <main>
+ 11e:	1d d2       	rcall	.+1082   	; 0x55a <main>
  120:	bc c2       	rjmp	.+1400   	; 0x69a <_exit>
 
 00000122 <__bad_interrupt>:
@@ -317,14 +317,14 @@ void Init_LCD(void)
 void manual_ctrl(void)
 {
 	if (ADC_channel == 0) // when channel one is selected, plunger
- 1a8:	80 91 a5 02 	lds	r24, 0x02A5	; 0x8002a5 <ADC_channel>
+ 1a8:	80 91 bb 02 	lds	r24, 0x02BB	; 0x8002bb <ADC_channel>
  1ac:	81 11       	cpse	r24, r1
  1ae:	30 c0       	rjmp	.+96     	; 0x210 <manual_ctrl+0x68>
 	{
 
 		OCR1A = ((uint32_t)ADC_res0 * 25 / 16) + 2200; // assign value to servo 1
- 1b0:	80 91 94 02 	lds	r24, 0x0294	; 0x800294 <ADC_res0>
- 1b4:	90 91 95 02 	lds	r25, 0x0295	; 0x800295 <ADC_res0+0x1>
+ 1b0:	80 91 aa 02 	lds	r24, 0x02AA	; 0x8002aa <ADC_res0>
+ 1b4:	90 91 ab 02 	lds	r25, 0x02AB	; 0x8002ab <ADC_res0+0x1>
  1b8:	a0 e0       	ldi	r26, 0x00	; 0
  1ba:	b0 e0       	ldi	r27, 0x00	; 0
  1bc:	ac 01       	movw	r20, r24
@@ -369,13 +369,13 @@ void manual_ctrl(void)
  20c:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x700088>
 	}
 	if (ADC_channel == 1) // when channel 2 is selected, arm
- 210:	80 91 a5 02 	lds	r24, 0x02A5	; 0x8002a5 <ADC_channel>
+ 210:	80 91 bb 02 	lds	r24, 0x02BB	; 0x8002bb <ADC_channel>
  214:	81 30       	cpi	r24, 0x01	; 1
  216:	c9 f4       	brne	.+50     	; 0x24a <manual_ctrl+0xa2>
 	{
 		OCR1B = ((uint32_t)ADC_res1 * 625 / 512) + 2400; // assign value to servo 2
- 218:	20 91 a1 02 	lds	r18, 0x02A1	; 0x8002a1 <ADC_res1>
- 21c:	30 91 a2 02 	lds	r19, 0x02A2	; 0x8002a2 <ADC_res1+0x1>
+ 218:	20 91 b7 02 	lds	r18, 0x02B7	; 0x8002b7 <ADC_res1>
+ 21c:	30 91 b8 02 	lds	r19, 0x02B8	; 0x8002b8 <ADC_res1+0x1>
  220:	a1 e7       	ldi	r26, 0x71	; 113
  222:	b2 e0       	ldi	r27, 0x02	; 2
  224:	2b d2       	rcall	.+1110   	; 0x67c <__umulhisi3>
@@ -405,7 +405,7 @@ void manual_ctrl(void)
 		while ((PINA & 0x01) != 0)
 		{
 			PORTC = half[stepper_index];
- 250:	e0 91 7a 02 	lds	r30, 0x027A	; 0x80027a <__data_end>
+ 250:	e0 91 90 02 	lds	r30, 0x0290	; 0x800290 <__data_end>
  254:	f0 e0       	ldi	r31, 0x00	; 0
  256:	ee 0f       	add	r30, r30
  258:	ff 1f       	adc	r31, r31
@@ -415,32 +415,32 @@ void manual_ctrl(void)
  260:	88 b9       	out	0x08, r24	; 8
 
 			while (tick < 10);
- 262:	80 91 9f 02 	lds	r24, 0x029F	; 0x80029f <tick>
- 266:	90 91 a0 02 	lds	r25, 0x02A0	; 0x8002a0 <tick+0x1>
+ 262:	80 91 b5 02 	lds	r24, 0x02B5	; 0x8002b5 <tick>
+ 266:	90 91 b6 02 	lds	r25, 0x02B6	; 0x8002b6 <tick+0x1>
  26a:	0a 97       	sbiw	r24, 0x0a	; 10
  26c:	d0 f3       	brcs	.-12     	; 0x262 <manual_ctrl+0xba>
 			tick = 0;
- 26e:	10 92 a0 02 	sts	0x02A0, r1	; 0x8002a0 <tick+0x1>
- 272:	10 92 9f 02 	sts	0x029F, r1	; 0x80029f <tick>
+ 26e:	10 92 b6 02 	sts	0x02B6, r1	; 0x8002b6 <tick+0x1>
+ 272:	10 92 b5 02 	sts	0x02B5, r1	; 0x8002b5 <tick>
 
 			++stepper_index;
- 276:	80 91 7a 02 	lds	r24, 0x027A	; 0x80027a <__data_end>
+ 276:	80 91 90 02 	lds	r24, 0x0290	; 0x800290 <__data_end>
  27a:	8f 5f       	subi	r24, 0xFF	; 255
 			stepper_index = stepper_index % 8;
  27c:	87 70       	andi	r24, 0x07	; 7
- 27e:	80 93 7a 02 	sts	0x027A, r24	; 0x80027a <__data_end>
+ 27e:	80 93 90 02 	sts	0x0290, r24	; 0x800290 <__data_end>
 			number++;
- 282:	80 91 98 02 	lds	r24, 0x0298	; 0x800298 <number>
- 286:	90 91 99 02 	lds	r25, 0x0299	; 0x800299 <number+0x1>
- 28a:	a0 91 9a 02 	lds	r26, 0x029A	; 0x80029a <number+0x2>
- 28e:	b0 91 9b 02 	lds	r27, 0x029B	; 0x80029b <number+0x3>
+ 282:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <number>
+ 286:	90 91 af 02 	lds	r25, 0x02AF	; 0x8002af <number+0x1>
+ 28a:	a0 91 b0 02 	lds	r26, 0x02B0	; 0x8002b0 <number+0x2>
+ 28e:	b0 91 b1 02 	lds	r27, 0x02B1	; 0x8002b1 <number+0x3>
  292:	01 96       	adiw	r24, 0x01	; 1
  294:	a1 1d       	adc	r26, r1
  296:	b1 1d       	adc	r27, r1
- 298:	80 93 98 02 	sts	0x0298, r24	; 0x800298 <number>
- 29c:	90 93 99 02 	sts	0x0299, r25	; 0x800299 <number+0x1>
- 2a0:	a0 93 9a 02 	sts	0x029A, r26	; 0x80029a <number+0x2>
- 2a4:	b0 93 9b 02 	sts	0x029B, r27	; 0x80029b <number+0x3>
+ 298:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <number>
+ 29c:	90 93 af 02 	sts	0x02AF, r25	; 0x8002af <number+0x1>
+ 2a0:	a0 93 b0 02 	sts	0x02B0, r26	; 0x8002b0 <number+0x2>
+ 2a4:	b0 93 b1 02 	sts	0x02B1, r27	; 0x8002b1 <number+0x3>
 		OCR1B = ((uint32_t)ADC_res1 * 625 / 512) + 2400; // assign value to servo 2
 	}
 
@@ -463,16 +463,16 @@ void manual_ctrl(void)
 		{
 
 			if (stepper_index == 0)
- 2b2:	80 91 7a 02 	lds	r24, 0x027A	; 0x80027a <__data_end>
+ 2b2:	80 91 90 02 	lds	r24, 0x0290	; 0x800290 <__data_end>
  2b6:	81 11       	cpse	r24, r1
  2b8:	03 c0       	rjmp	.+6      	; 0x2c0 <manual_ctrl+0x118>
 			{
 				stepper_index = 7;
  2ba:	87 e0       	ldi	r24, 0x07	; 7
- 2bc:	80 93 7a 02 	sts	0x027A, r24	; 0x80027a <__data_end>
+ 2bc:	80 93 90 02 	sts	0x0290, r24	; 0x800290 <__data_end>
 			}
 			PORTC = half[stepper_index];
- 2c0:	e0 91 7a 02 	lds	r30, 0x027A	; 0x80027a <__data_end>
+ 2c0:	e0 91 90 02 	lds	r30, 0x0290	; 0x800290 <__data_end>
  2c4:	f0 e0       	ldi	r31, 0x00	; 0
  2c6:	ee 0f       	add	r30, r30
  2c8:	ff 1f       	adc	r31, r31
@@ -482,29 +482,29 @@ void manual_ctrl(void)
  2d0:	88 b9       	out	0x08, r24	; 8
 
 			while (tick < 10);
- 2d2:	80 91 9f 02 	lds	r24, 0x029F	; 0x80029f <tick>
- 2d6:	90 91 a0 02 	lds	r25, 0x02A0	; 0x8002a0 <tick+0x1>
+ 2d2:	80 91 b5 02 	lds	r24, 0x02B5	; 0x8002b5 <tick>
+ 2d6:	90 91 b6 02 	lds	r25, 0x02B6	; 0x8002b6 <tick+0x1>
  2da:	0a 97       	sbiw	r24, 0x0a	; 10
  2dc:	d0 f3       	brcs	.-12     	; 0x2d2 <manual_ctrl+0x12a>
 			tick = 0;
- 2de:	10 92 a0 02 	sts	0x02A0, r1	; 0x8002a0 <tick+0x1>
- 2e2:	10 92 9f 02 	sts	0x029F, r1	; 0x80029f <tick>
+ 2de:	10 92 b6 02 	sts	0x02B6, r1	; 0x8002b6 <tick+0x1>
+ 2e2:	10 92 b5 02 	sts	0x02B5, r1	; 0x8002b5 <tick>
 			--stepper_index;
- 2e6:	80 91 7a 02 	lds	r24, 0x027A	; 0x80027a <__data_end>
+ 2e6:	80 91 90 02 	lds	r24, 0x0290	; 0x800290 <__data_end>
  2ea:	81 50       	subi	r24, 0x01	; 1
- 2ec:	80 93 7a 02 	sts	0x027A, r24	; 0x80027a <__data_end>
+ 2ec:	80 93 90 02 	sts	0x0290, r24	; 0x800290 <__data_end>
 			number--;
- 2f0:	80 91 98 02 	lds	r24, 0x0298	; 0x800298 <number>
- 2f4:	90 91 99 02 	lds	r25, 0x0299	; 0x800299 <number+0x1>
- 2f8:	a0 91 9a 02 	lds	r26, 0x029A	; 0x80029a <number+0x2>
- 2fc:	b0 91 9b 02 	lds	r27, 0x029B	; 0x80029b <number+0x3>
+ 2f0:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <number>
+ 2f4:	90 91 af 02 	lds	r25, 0x02AF	; 0x8002af <number+0x1>
+ 2f8:	a0 91 b0 02 	lds	r26, 0x02B0	; 0x8002b0 <number+0x2>
+ 2fc:	b0 91 b1 02 	lds	r27, 0x02B1	; 0x8002b1 <number+0x3>
  300:	01 97       	sbiw	r24, 0x01	; 1
  302:	a1 09       	sbc	r26, r1
  304:	b1 09       	sbc	r27, r1
- 306:	80 93 98 02 	sts	0x0298, r24	; 0x800298 <number>
- 30a:	90 93 99 02 	sts	0x0299, r25	; 0x800299 <number+0x1>
- 30e:	a0 93 9a 02 	sts	0x029A, r26	; 0x80029a <number+0x2>
- 312:	b0 93 9b 02 	sts	0x029B, r27	; 0x80029b <number+0x3>
+ 306:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <number>
+ 30a:	90 93 af 02 	sts	0x02AF, r25	; 0x8002af <number+0x1>
+ 30e:	a0 93 b0 02 	sts	0x02B0, r26	; 0x8002b0 <number+0x2>
+ 312:	b0 93 b1 02 	sts	0x02B1, r27	; 0x8002b1 <number+0x3>
 		}
 	}
 
@@ -525,8 +525,8 @@ void Validate(void)
  31c:	36 c0       	rjmp	.+108    	; 0x38a <Validate+0x6e>
 	{
 		if (LCD_update == 1)
- 31e:	80 91 9c 02 	lds	r24, 0x029C	; 0x80029c <LCD_update>
- 322:	90 91 9d 02 	lds	r25, 0x029D	; 0x80029d <LCD_update+0x1>
+ 31e:	80 91 b2 02 	lds	r24, 0x02B2	; 0x8002b2 <LCD_update>
+ 322:	90 91 b3 02 	lds	r25, 0x02B3	; 0x8002b3 <LCD_update+0x1>
  326:	01 97       	sbiw	r24, 0x01	; 1
  328:	81 f5       	brne	.+96     	; 0x38a <Validate+0x6e>
  32a:	0f c0       	rjmp	.+30     	; 0x34a <Validate+0x2e>
@@ -536,7 +536,7 @@ void Validate(void)
 			{
 				if (rx_buffer[i] != password[i])
  32c:	fc 01       	movw	r30, r24
- 32e:	e5 58       	subi	r30, 0x85	; 133
+ 32e:	ef 56       	subi	r30, 0x6F	; 111
  330:	fd 4f       	sbci	r31, 0xFD	; 253
  332:	30 81       	ld	r19, Z
  334:	fc 01       	movw	r30, r24
@@ -548,7 +548,7 @@ void Validate(void)
 				{
 					access = 1;
  340:	21 e0       	ldi	r18, 0x01	; 1
- 342:	20 93 a3 02 	sts	0x02A3, r18	; 0x8002a3 <access>
+ 342:	20 93 b9 02 	sts	0x02B9, r18	; 0x8002b9 <access>
 	while (start != 1)
 	{
 		if (LCD_update == 1)
@@ -568,7 +568,7 @@ void Validate(void)
 				}
 			}
 			if (access == 0)
- 354:	80 91 a3 02 	lds	r24, 0x02A3	; 0x8002a3 <access>
+ 354:	80 91 b9 02 	lds	r24, 0x02B9	; 0x8002b9 <access>
  358:	81 11       	cpse	r24, r1
  35a:	07 c0       	rjmp	.+14     	; 0x36a <Validate+0x4e>
 			{
@@ -578,7 +578,7 @@ void Validate(void)
  360:	2e d1       	rcall	.+604    	; 0x5be <String_out>
 				start = 1;
  362:	81 e0       	ldi	r24, 0x01	; 1
- 364:	80 93 a4 02 	sts	0x02A4, r24	; 0x8002a4 <start>
+ 364:	80 93 ba 02 	sts	0x02BA, r24	; 0x8002ba <start>
  368:	05 c0       	rjmp	.+10     	; 0x374 <Validate+0x58>
 			}
 			else
@@ -588,26 +588,26 @@ void Validate(void)
  36c:	92 e0       	ldi	r25, 0x02	; 2
  36e:	27 d1       	rcall	.+590    	; 0x5be <String_out>
 				access = 0;
- 370:	10 92 a3 02 	sts	0x02A3, r1	; 0x8002a3 <access>
+ 370:	10 92 b9 02 	sts	0x02B9, r1	; 0x8002b9 <access>
 			}
 			memset(rx_buffer, 0, 25); // clear the array
  374:	89 e1       	ldi	r24, 0x19	; 25
- 376:	eb e7       	ldi	r30, 0x7B	; 123
+ 376:	e1 e9       	ldi	r30, 0x91	; 145
  378:	f2 e0       	ldi	r31, 0x02	; 2
  37a:	df 01       	movw	r26, r30
  37c:	1d 92       	st	X+, r1
  37e:	8a 95       	dec	r24
  380:	e9 f7       	brne	.-6      	; 0x37c <Validate+0x60>
 			LCD_update = 0;
- 382:	10 92 9d 02 	sts	0x029D, r1	; 0x80029d <LCD_update+0x1>
- 386:	10 92 9c 02 	sts	0x029C, r1	; 0x80029c <LCD_update>
+ 382:	10 92 b3 02 	sts	0x02B3, r1	; 0x8002b3 <LCD_update+0x1>
+ 386:	10 92 b2 02 	sts	0x02B2, r1	; 0x8002b2 <LCD_update>
 	Validate();
 }
 
 void Validate(void)
 {
 	while (start != 1)
- 38a:	80 91 a4 02 	lds	r24, 0x02A4	; 0x8002a4 <start>
+ 38a:	80 91 ba 02 	lds	r24, 0x02BA	; 0x8002ba <start>
  38e:	81 30       	cpi	r24, 0x01	; 1
  390:	31 f6       	brne	.-116    	; 0x31e <Validate+0x2>
 			}
@@ -666,8 +666,8 @@ ISR(ADC_vect) // interrupt for ADC
  3ca:	f0 e0       	ldi	r31, 0x00	; 0
  3cc:	80 81       	ld	r24, Z
  3ce:	90 e0       	ldi	r25, 0x00	; 0
- 3d0:	90 93 97 02 	sts	0x0297, r25	; 0x800297 <ADC_value+0x1>
- 3d4:	80 93 96 02 	sts	0x0296, r24	; 0x800296 <ADC_value>
+ 3d0:	90 93 ad 02 	sts	0x02AD, r25	; 0x8002ad <ADC_value+0x1>
+ 3d4:	80 93 ac 02 	sts	0x02AC, r24	; 0x8002ac <ADC_value>
 	ADC_value = ADCL | (ADCH << 8); // adds last two bits
  3d8:	20 81       	ld	r18, Z
  3da:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__TEXT_REGION_LENGTH__+0x700079>
@@ -675,47 +675,47 @@ ISR(ADC_vect) // interrupt for ADC
  3e0:	98 2f       	mov	r25, r24
  3e2:	88 27       	eor	r24, r24
  3e4:	82 2b       	or	r24, r18
- 3e6:	90 93 97 02 	sts	0x0297, r25	; 0x800297 <ADC_value+0x1>
- 3ea:	80 93 96 02 	sts	0x0296, r24	; 0x800296 <ADC_value>
+ 3e6:	90 93 ad 02 	sts	0x02AD, r25	; 0x8002ad <ADC_value+0x1>
+ 3ea:	80 93 ac 02 	sts	0x02AC, r24	; 0x8002ac <ADC_value>
 
 	if (ADC_channel == 0)
- 3ee:	80 91 a5 02 	lds	r24, 0x02A5	; 0x8002a5 <ADC_channel>
+ 3ee:	80 91 bb 02 	lds	r24, 0x02BB	; 0x8002bb <ADC_channel>
  3f2:	81 11       	cpse	r24, r1
  3f4:	09 c0       	rjmp	.+18     	; 0x408 <__LOCK_REGION_LENGTH__+0x8>
 	{
 		ADC_res0 = ADC_value;
- 3f6:	80 91 96 02 	lds	r24, 0x0296	; 0x800296 <ADC_value>
- 3fa:	90 91 97 02 	lds	r25, 0x0297	; 0x800297 <ADC_value+0x1>
- 3fe:	90 93 95 02 	sts	0x0295, r25	; 0x800295 <ADC_res0+0x1>
- 402:	80 93 94 02 	sts	0x0294, r24	; 0x800294 <ADC_res0>
+ 3f6:	80 91 ac 02 	lds	r24, 0x02AC	; 0x8002ac <ADC_value>
+ 3fa:	90 91 ad 02 	lds	r25, 0x02AD	; 0x8002ad <ADC_value+0x1>
+ 3fe:	90 93 ab 02 	sts	0x02AB, r25	; 0x8002ab <ADC_res0+0x1>
+ 402:	80 93 aa 02 	sts	0x02AA, r24	; 0x8002aa <ADC_res0>
  406:	0c c0       	rjmp	.+24     	; 0x420 <__LOCK_REGION_LENGTH__+0x20>
 	}
 	else if (ADC_channel == 1)
- 408:	80 91 a5 02 	lds	r24, 0x02A5	; 0x8002a5 <ADC_channel>
+ 408:	80 91 bb 02 	lds	r24, 0x02BB	; 0x8002bb <ADC_channel>
  40c:	81 30       	cpi	r24, 0x01	; 1
  40e:	41 f4       	brne	.+16     	; 0x420 <__LOCK_REGION_LENGTH__+0x20>
 	{
 		ADC_res1 = ADC_value;
- 410:	80 91 96 02 	lds	r24, 0x0296	; 0x800296 <ADC_value>
- 414:	90 91 97 02 	lds	r25, 0x0297	; 0x800297 <ADC_value+0x1>
- 418:	90 93 a2 02 	sts	0x02A2, r25	; 0x8002a2 <ADC_res1+0x1>
- 41c:	80 93 a1 02 	sts	0x02A1, r24	; 0x8002a1 <ADC_res1>
+ 410:	80 91 ac 02 	lds	r24, 0x02AC	; 0x8002ac <ADC_value>
+ 414:	90 91 ad 02 	lds	r25, 0x02AD	; 0x8002ad <ADC_value+0x1>
+ 418:	90 93 b8 02 	sts	0x02B8, r25	; 0x8002b8 <ADC_res1+0x1>
+ 41c:	80 93 b7 02 	sts	0x02B7, r24	; 0x8002b7 <ADC_res1>
 	}
 
 	ADC_channel++;
- 420:	80 91 a5 02 	lds	r24, 0x02A5	; 0x8002a5 <ADC_channel>
+ 420:	80 91 bb 02 	lds	r24, 0x02BB	; 0x8002bb <ADC_channel>
  424:	8f 5f       	subi	r24, 0xFF	; 255
- 426:	80 93 a5 02 	sts	0x02A5, r24	; 0x8002a5 <ADC_channel>
+ 426:	80 93 bb 02 	sts	0x02BB, r24	; 0x8002bb <ADC_channel>
 	ADC_channel = ADC_channel % 2; // alternates ADC_channel
- 42a:	80 91 a5 02 	lds	r24, 0x02A5	; 0x8002a5 <ADC_channel>
+ 42a:	80 91 bb 02 	lds	r24, 0x02BB	; 0x8002bb <ADC_channel>
  42e:	81 70       	andi	r24, 0x01	; 1
- 430:	80 93 a5 02 	sts	0x02A5, r24	; 0x8002a5 <ADC_channel>
+ 430:	80 93 bb 02 	sts	0x02BB, r24	; 0x8002bb <ADC_channel>
 
 	ADMUX = (ADMUX & 0xE0) | ADC_channel; // set ADC port
  434:	ec e7       	ldi	r30, 0x7C	; 124
  436:	f0 e0       	ldi	r31, 0x00	; 0
  438:	80 81       	ld	r24, Z
- 43a:	90 91 a5 02 	lds	r25, 0x02A5	; 0x8002a5 <ADC_channel>
+ 43a:	90 91 bb 02 	lds	r25, 0x02BB	; 0x8002bb <ADC_channel>
  43e:	80 7e       	andi	r24, 0xE0	; 224
  440:	89 2b       	or	r24, r25
  442:	80 83       	st	Z, r24
@@ -795,11 +795,11 @@ ISR(TIMER0_OVF_vect) // timer overflow for interrupt
 	TCNT0 = 0; // 240
  4ac:	16 bc       	out	0x26, r1	; 38
 	tick++;
- 4ae:	80 91 9f 02 	lds	r24, 0x029F	; 0x80029f <tick>
- 4b2:	90 91 a0 02 	lds	r25, 0x02A0	; 0x8002a0 <tick+0x1>
+ 4ae:	80 91 b5 02 	lds	r24, 0x02B5	; 0x8002b5 <tick>
+ 4b2:	90 91 b6 02 	lds	r25, 0x02B6	; 0x8002b6 <tick+0x1>
  4b6:	01 96       	adiw	r24, 0x01	; 1
- 4b8:	90 93 a0 02 	sts	0x02A0, r25	; 0x8002a0 <tick+0x1>
- 4bc:	80 93 9f 02 	sts	0x029F, r24	; 0x80029f <tick>
+ 4b8:	90 93 b6 02 	sts	0x02B6, r25	; 0x8002b6 <tick+0x1>
+ 4bc:	80 93 b5 02 	sts	0x02B5, r24	; 0x8002b5 <tick>
 }
  4c0:	9f 91       	pop	r25
  4c2:	8f 91       	pop	r24
@@ -852,7 +852,7 @@ void stepper_home(void)
  4fe:	19 c0       	rjmp	.+50     	; 0x532 <stepper_home+0x4c>
 	{
 		PORTC = half[stepper_index];
- 500:	e0 91 7a 02 	lds	r30, 0x027A	; 0x80027a <__data_end>
+ 500:	e0 91 90 02 	lds	r30, 0x0290	; 0x800290 <__data_end>
  504:	f0 e0       	ldi	r31, 0x00	; 0
  506:	ee 0f       	add	r30, r30
  508:	ff 1f       	adc	r31, r31
@@ -861,19 +861,19 @@ void stepper_home(void)
  50e:	80 81       	ld	r24, Z
  510:	88 b9       	out	0x08, r24	; 8
 		while (tick < 10);
- 512:	80 91 9f 02 	lds	r24, 0x029F	; 0x80029f <tick>
- 516:	90 91 a0 02 	lds	r25, 0x02A0	; 0x8002a0 <tick+0x1>
+ 512:	80 91 b5 02 	lds	r24, 0x02B5	; 0x8002b5 <tick>
+ 516:	90 91 b6 02 	lds	r25, 0x02B6	; 0x8002b6 <tick+0x1>
  51a:	0a 97       	sbiw	r24, 0x0a	; 10
  51c:	d0 f3       	brcs	.-12     	; 0x512 <stepper_home+0x2c>
 		tick = 0;
- 51e:	10 92 a0 02 	sts	0x02A0, r1	; 0x8002a0 <tick+0x1>
- 522:	10 92 9f 02 	sts	0x029F, r1	; 0x80029f <tick>
+ 51e:	10 92 b6 02 	sts	0x02B6, r1	; 0x8002b6 <tick+0x1>
+ 522:	10 92 b5 02 	sts	0x02B5, r1	; 0x8002b5 <tick>
 		++stepper_index;
- 526:	80 91 7a 02 	lds	r24, 0x027A	; 0x80027a <__data_end>
+ 526:	80 91 90 02 	lds	r24, 0x0290	; 0x800290 <__data_end>
  52a:	8f 5f       	subi	r24, 0xFF	; 255
 		stepper_index = stepper_index % 8;
  52c:	87 70       	andi	r24, 0x07	; 7
- 52e:	80 93 7a 02 	sts	0x027A, r24	; 0x80027a <__data_end>
+ 52e:	80 93 90 02 	sts	0x0290, r24	; 0x800290 <__data_end>
 void stepper_home(void)
 {
 	OCR1A = 3800;
@@ -883,90 +883,89 @@ void stepper_home(void)
  532:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <__TEXT_REGION_LENGTH__+0x700106>
  536:	80 fd       	sbrc	r24, 0
  538:	e3 cf       	rjmp	.-58     	; 0x500 <stepper_home+0x1a>
-		while (tick < 10);
 		tick = 0;
 		++stepper_index;
 		stepper_index = stepper_index % 8;
+		
 	}
-}
- 53a:	08 95       	ret
+	String_out("Home position reached");
+ 53a:	89 e7       	ldi	r24, 0x79	; 121
+ 53c:	92 e0       	ldi	r25, 0x02	; 2
+ 53e:	3f c0       	rjmp	.+126    	; 0x5be <String_out>
+ 540:	08 95       	ret
 
-0000053c <startup>:
+00000542 <startup>:
 	}
 }
 
 void startup(void)
 {
 	sei(); // enable interrupt
- 53c:	78 94       	sei
+ 542:	78 94       	sei
 	Init_IO();
- 53e:	c7 df       	rcall	.-114    	; 0x4ce <Init_IO>
+ 544:	c4 df       	rcall	.-120    	; 0x4ce <Init_IO>
 	Timer_Init();
- 540:	92 df       	rcall	.-220    	; 0x466 <Timer_Init>
+ 546:	8f df       	rcall	.-226    	; 0x466 <Timer_Init>
 	init_ADC();
- 542:	28 df       	rcall	.-432    	; 0x394 <init_ADC>
+ 548:	25 df       	rcall	.-438    	; 0x394 <init_ADC>
 	stepper_home(); // return to home position (stepper)
- 544:	d0 df       	rcall	.-96     	; 0x4e6 <stepper_home>
- 546:	08 de       	rcall	.-1008   	; 0x158 <Init_LCD>
+ 54a:	cd df       	rcall	.-102    	; 0x4e6 <stepper_home>
+ 54c:	05 de       	rcall	.-1014   	; 0x158 <Init_LCD>
 
 	Init_LCD();
- 548:	25 d0       	rcall	.+74     	; 0x594 <Init_USART>
+ 54e:	22 d0       	rcall	.+68     	; 0x594 <Init_USART>
 	Init_USART();
- 54a:	80 e1       	ldi	r24, 0x10	; 16
- 54c:	92 e0       	ldi	r25, 0x02	; 2
+ 550:	80 e1       	ldi	r24, 0x10	; 16
+ 552:	92 e0       	ldi	r25, 0x02	; 2
 	String_out(greet);
- 54e:	37 d0       	rcall	.+110    	; 0x5be <String_out>
- 550:	e5 ce       	rjmp	.-566    	; 0x31c <Validate>
- 552:	08 95       	ret
+ 554:	34 d0       	rcall	.+104    	; 0x5be <String_out>
+ 556:	e2 ce       	rjmp	.-572    	; 0x31c <Validate>
+ 558:	08 95       	ret
 
-00000554 <main>:
- 554:	f3 df       	rcall	.-26     	; 0x53c <startup>
+0000055a <main>:
+ 55a:	f3 df       	rcall	.-26     	; 0x542 <startup>
 	Validate();
- 556:	80 91 a4 02 	lds	r24, 0x02A4	; 0x8002a4 <start>
- 55a:	81 30       	cpi	r24, 0x01	; 1
+ 55c:	80 91 ba 02 	lds	r24, 0x02BA	; 0x8002ba <start>
+ 560:	81 30       	cpi	r24, 0x01	; 1
 	while (1) /* start of super loop */
 	{
 
 		if (start == 1)
 		{
 			manual_ctrl();
- 55c:	e1 f7       	brne	.-8      	; 0x556 <main+0x2>
- 55e:	24 de       	rcall	.-952    	; 0x1a8 <manual_ctrl>
+ 562:	e1 f7       	brne	.-8      	; 0x55c <main+0x2>
+ 564:	21 de       	rcall	.-958    	; 0x1a8 <manual_ctrl>
 			
 
 			if (LCD_update == 1) /// only chars
- 560:	80 91 9c 02 	lds	r24, 0x029C	; 0x80029c <LCD_update>
- 564:	90 91 9d 02 	lds	r25, 0x029D	; 0x80029d <LCD_update+0x1>
- 568:	01 97       	sbiw	r24, 0x01	; 1
- 56a:	a9 f7       	brne	.-22     	; 0x556 <main+0x2>
+ 566:	80 91 b2 02 	lds	r24, 0x02B2	; 0x8002b2 <LCD_update>
+ 56a:	90 91 b3 02 	lds	r25, 0x02B3	; 0x8002b3 <LCD_update+0x1>
+ 56e:	01 97       	sbiw	r24, 0x01	; 1
+ 570:	a9 f7       	brne	.-22     	; 0x55c <main+0x2>
 			{
 				switch (rx_buffer[0])
- 56c:	80 91 7b 02 	lds	r24, 0x027B	; 0x80027b <rx_buffer>
- 570:	86 32       	cpi	r24, 0x26	; 38
- 572:	59 f4       	brne	.+22     	; 0x58a <main+0x36>
+ 572:	80 91 91 02 	lds	r24, 0x0291	; 0x800291 <rx_buffer>
+ 576:	86 32       	cpi	r24, 0x26	; 38
 				{
 				case '&':
-					String_out(password);
- 574:	80 e6       	ldi	r24, 0x60	; 96
- 576:	92 e0       	ldi	r25, 0x02	; 2
 					stepper_home();
- 578:	22 d0       	rcall	.+68     	; 0x5be <String_out>
+ 578:	09 f4       	brne	.+2      	; 0x57c <main+0x22>
  57a:	b5 df       	rcall	.-150    	; 0x4e6 <stepper_home>
-					memset(rx_buffer, 0, 25); // clear the array
+					break;
+				}
+
+				memset(rx_buffer, 0, 25); // clear the array
  57c:	89 e1       	ldi	r24, 0x19	; 25
- 57e:	eb e7       	ldi	r30, 0x7B	; 123
+ 57e:	e1 e9       	ldi	r30, 0x91	; 145
  580:	f2 e0       	ldi	r31, 0x02	; 2
  582:	df 01       	movw	r26, r30
  584:	1d 92       	st	X+, r1
  586:	8a 95       	dec	r24
- 588:	e9 f7       	brne	.-6      	; 0x584 <main+0x30>
-					break;
-				}
-
+ 588:	e9 f7       	brne	.-6      	; 0x584 <main+0x2a>
 				LCD_update = 0;
- 58a:	10 92 9d 02 	sts	0x029D, r1	; 0x80029d <LCD_update+0x1>
- 58e:	10 92 9c 02 	sts	0x029C, r1	; 0x80029c <LCD_update>
- 592:	e1 cf       	rjmp	.-62     	; 0x556 <main+0x2>
+ 58a:	10 92 b3 02 	sts	0x02B3, r1	; 0x8002b3 <LCD_update+0x1>
+ 58e:	10 92 b2 02 	sts	0x02B2, r1	; 0x8002b2 <LCD_update>
+ 592:	e4 cf       	rjmp	.-56     	; 0x55c <main+0x2>
 
 00000594 <Init_USART>:
 
@@ -1067,14 +1066,14 @@ ISR(USART0_RX_vect)
 	rx_char = UDR0;										//read UDR0
  5fc:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7000c6>
  600:	90 e0       	ldi	r25, 0x00	; 0
- 602:	90 93 a7 02 	sts	0x02A7, r25	; 0x8002a7 <rx_char+0x1>
- 606:	80 93 a6 02 	sts	0x02A6, r24	; 0x8002a6 <rx_char>
+ 602:	90 93 bd 02 	sts	0x02BD, r25	; 0x8002bd <rx_char+0x1>
+ 606:	80 93 bc 02 	sts	0x02BC, r24	; 0x8002bc <rx_char>
 			
 			
 			
 			if (rx_char == 0x0A)						//when 0A hex received
- 60a:	80 91 a6 02 	lds	r24, 0x02A6	; 0x8002a6 <rx_char>
- 60e:	90 91 a7 02 	lds	r25, 0x02A7	; 0x8002a7 <rx_char+0x1>
+ 60a:	80 91 bc 02 	lds	r24, 0x02BC	; 0x8002bc <rx_char>
+ 60e:	90 91 bd 02 	lds	r25, 0x02BD	; 0x8002bd <rx_char+0x1>
  612:	0a 97       	sbiw	r24, 0x0a	; 10
  614:	01 f1       	breq	.+64     	; 0x656 <__vector_25+0x80>
 			{
@@ -1082,23 +1081,23 @@ ISR(USART0_RX_vect)
 			}	
 			
 				if(rx_char != 0x0D)						//carriage return?
- 616:	80 91 a6 02 	lds	r24, 0x02A6	; 0x8002a6 <rx_char>
- 61a:	90 91 a7 02 	lds	r25, 0x02A7	; 0x8002a7 <rx_char+0x1>
+ 616:	80 91 bc 02 	lds	r24, 0x02BC	; 0x8002bc <rx_char>
+ 61a:	90 91 bd 02 	lds	r25, 0x02BD	; 0x8002bd <rx_char+0x1>
  61e:	0d 97       	sbiw	r24, 0x0d	; 13
  620:	81 f0       	breq	.+32     	; 0x642 <__vector_25+0x6c>
 				{
 					rx_buffer[i] = rx_char;				//put recived char into buffer array
- 622:	e0 91 9e 02 	lds	r30, 0x029E	; 0x80029e <i>
+ 622:	e0 91 b4 02 	lds	r30, 0x02B4	; 0x8002b4 <i>
  626:	f0 e0       	ldi	r31, 0x00	; 0
- 628:	80 91 a6 02 	lds	r24, 0x02A6	; 0x8002a6 <rx_char>
- 62c:	90 91 a7 02 	lds	r25, 0x02A7	; 0x8002a7 <rx_char+0x1>
- 630:	e5 58       	subi	r30, 0x85	; 133
+ 628:	80 91 bc 02 	lds	r24, 0x02BC	; 0x8002bc <rx_char>
+ 62c:	90 91 bd 02 	lds	r25, 0x02BD	; 0x8002bd <rx_char+0x1>
+ 630:	ef 56       	subi	r30, 0x6F	; 111
  632:	fd 4f       	sbci	r31, 0xFD	; 253
  634:	80 83       	st	Z, r24
 					i++	;								//increment index
- 636:	80 91 9e 02 	lds	r24, 0x029E	; 0x80029e <i>
+ 636:	80 91 b4 02 	lds	r24, 0x02B4	; 0x8002b4 <i>
  63a:	8f 5f       	subi	r24, 0xFF	; 255
- 63c:	80 93 9e 02 	sts	0x029E, r24	; 0x80029e <i>
+ 63c:	80 93 b4 02 	sts	0x02B4, r24	; 0x8002b4 <i>
  640:	0a c0       	rjmp	.+20     	; 0x656 <__vector_25+0x80>
 				}
 				else									//if carriage return
@@ -1109,12 +1108,12 @@ ISR(USART0_RX_vect)
  644:	b5 df       	rcall	.-150    	; 0x5b0 <UART_out>
 					
 					i=0;								// reset index
- 646:	10 92 9e 02 	sts	0x029E, r1	; 0x80029e <i>
+ 646:	10 92 b4 02 	sts	0x02B4, r1	; 0x8002b4 <i>
 					LCD_update = 1;						//update LCD
  64a:	81 e0       	ldi	r24, 0x01	; 1
  64c:	90 e0       	ldi	r25, 0x00	; 0
- 64e:	90 93 9d 02 	sts	0x029D, r25	; 0x80029d <LCD_update+0x1>
- 652:	80 93 9c 02 	sts	0x029C, r24	; 0x80029c <LCD_update>
+ 64e:	90 93 b3 02 	sts	0x02B3, r25	; 0x8002b3 <LCD_update+0x1>
+ 652:	80 93 b2 02 	sts	0x02B2, r24	; 0x8002b2 <LCD_update>
 				}
 				
 				

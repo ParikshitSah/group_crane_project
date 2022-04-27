@@ -394,12 +394,12 @@ END GROUP
  .text.Init_IO  0x000004ce       0x18 main.o
                 0x000004ce                Init_IO
  .text.stepper_home
-                0x000004e6       0x56 main.o
+                0x000004e6       0x5c main.o
                 0x000004e6                stepper_home
- .text.startup  0x0000053c       0x18 main.o
-                0x0000053c                startup
- .text.main     0x00000554       0x40 main.o
-                0x00000554                main
+ .text.startup  0x00000542       0x18 main.o
+                0x00000542                startup
+ .text.main     0x0000055a       0x3a main.o
+                0x0000055a                main
  .text.Init_USART
                 0x00000594       0x1c USART.o
                 0x00000594                Init_USART
@@ -442,7 +442,7 @@ END GROUP
  *(.fini0)
                 0x0000069e                _etext = .
 
-.data           0x00800200       0x7a load address 0x0000069e
+.data           0x00800200       0x90 load address 0x0000069e
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -460,44 +460,46 @@ END GROUP
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
+ .rodata.str1.1
+                0x00800279       0x16 main.o
  *(.gnu.linkonce.r*)
-                0x0080027a                . = ALIGN (0x2)
- *fill*         0x00800279        0x1 
-                0x0080027a                _edata = .
-                0x0080027a                PROVIDE (__data_end, .)
+                0x00800290                . = ALIGN (0x2)
+ *fill*         0x0080028f        0x1 
+                0x00800290                _edata = .
+                0x00800290                PROVIDE (__data_end, .)
 
-.bss            0x0080027a       0x2e
-                0x0080027a                PROVIDE (__bss_start, .)
+.bss            0x00800290       0x2e
+                0x00800290                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.stepper_index
-                0x0080027a        0x1 main.o
-                0x0080027a                stepper_index
+                0x00800290        0x1 main.o
+                0x00800290                stepper_index
  .bss.rx_buffer
-                0x0080027b       0x19 main.o
-                0x0080027b                rx_buffer
+                0x00800291       0x19 main.o
+                0x00800291                rx_buffer
  *(COMMON)
- COMMON         0x00800294       0x14 main.o
-                0x00800294                ADC_res0
-                0x00800296                ADC_value
-                0x00800298                number
-                0x0080029c                LCD_update
-                0x0080029e                i
-                0x0080029f                tick
-                0x008002a1                ADC_res1
-                0x008002a3                access
-                0x008002a4                start
-                0x008002a5                ADC_channel
-                0x008002a6                rx_char
-                0x008002a8                PROVIDE (__bss_end, .)
+ COMMON         0x008002aa       0x14 main.o
+                0x008002aa                ADC_res0
+                0x008002ac                ADC_value
+                0x008002ae                number
+                0x008002b2                LCD_update
+                0x008002b4                i
+                0x008002b5                tick
+                0x008002b7                ADC_res1
+                0x008002b9                access
+                0x008002ba                start
+                0x008002bb                ADC_channel
+                0x008002bc                rx_char
+                0x008002be                PROVIDE (__bss_end, .)
                 0x0000069e                __data_load_start = LOADADDR (.data)
-                0x00000718                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000072e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008002a8        0x0
+.noinit         0x008002be        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008002a8                _end = .
+                0x008002be                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -576,26 +578,26 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x14f1
+.debug_info     0x00000000     0x14f2
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/crtatmega2560.o
  .debug_info    0x00000bbc      0x3af LCD.o
- .debug_info    0x00000f6b      0x403 main.o
- .debug_info    0x0000136e      0x183 USART.o
+ .debug_info    0x00000f6b      0x404 main.o
+ .debug_info    0x0000136f      0x183 USART.o
 
-.debug_abbrev   0x00000000      0xec2
+.debug_abbrev   0x00000000      0xedc
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0xb1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/crtatmega2560.o
  .debug_abbrev  0x00000b1a      0x15a LCD.o
- .debug_abbrev  0x00000c74      0x14e main.o
- .debug_abbrev  0x00000dc2      0x100 USART.o
+ .debug_abbrev  0x00000c74      0x168 main.o
+ .debug_abbrev  0x00000ddc      0x100 USART.o
 
-.debug_line     0x00000000      0x74b
+.debug_line     0x00000000      0x745
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/crtatmega2560.o
  .debug_line    0x0000001a      0x229 LCD.o
- .debug_line    0x00000243      0x3a5 main.o
- .debug_line    0x000005e8      0x163 USART.o
+ .debug_line    0x00000243      0x39f main.o
+ .debug_line    0x000005e2      0x163 USART.o
 
 .debug_frame    0x00000000      0x1e8
  *(.debug_frame)

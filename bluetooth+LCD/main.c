@@ -99,12 +99,11 @@ int main(void)
 				switch (rx_buffer[0])
 				{
 				case '&':
-					String_out(password);
 					stepper_home();
-					memset(rx_buffer, 0, 25); // clear the array
 					break;
 				}
 
+				memset(rx_buffer, 0, 25); // clear the array
 				LCD_update = 0;
 			}
 		}
@@ -281,5 +280,7 @@ void stepper_home(void)
 		tick = 0;
 		++stepper_index;
 		stepper_index = stepper_index % 8;
+		
 	}
+	String_out("Home position reached");
 }
