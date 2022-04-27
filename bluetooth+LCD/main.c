@@ -277,7 +277,8 @@ void stepper_home(void)
 	while ((PINK & Roller) != 0)
 	{
 		PORTC = half[stepper_index];
-		_delay_ms(20);
+		while (tick < 10);
+		tick = 0;
 		++stepper_index;
 		stepper_index = stepper_index % 8;
 	}
