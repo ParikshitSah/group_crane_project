@@ -65,7 +65,7 @@ uint8_t edit_mode;
 uint32_t number;
 int16_t toEEPROM[7] ={};
 
-uint16_t half[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08};
+uint16_t half[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08};			//make this global
 uint8_t stepper_index = 0; // variable
 uint8_t record_counter = 0;
 int16_t currentMotor;

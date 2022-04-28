@@ -8,5 +8,7 @@ LCD.c
 
 main.c
 
+playback.c
+
 USART.c
 
