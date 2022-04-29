@@ -13,7 +13,7 @@
 void Init_USART(void);				//init USART func prototype
 void UART_out(uint8_t ch);			//send to USART func prototype
 void String_out(char *string);
-
+void Num_out(int16_t *string);
 
  uint16_t extern volatile rx_char;
 

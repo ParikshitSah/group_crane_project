@@ -57,15 +57,13 @@ uint16_t volatile rx_char;
 volatile uint8_t i;
 volatile uint16_t LCD_update;
 char rx_buffer[25] = {};
+uint16_t half[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08};			//make this global
 char password[25] = {"test"};
 char sucess[25] = {"Access Granted"};
 char fail[25] = {"Try Again"};
-uint8_t access;
-uint8_t edit_mode;
-uint32_t number;
-int16_t toEEPROM[7] ={};
 
-uint16_t half[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08};			//make this global
+
+
 uint8_t stepper_index = 0; // variable
 uint8_t record_counter = 0;
 int16_t currentMotor;
@@ -97,6 +95,7 @@ int main(void)
 			{
 				case '#':			//start button pressed
 				String_out("Starting");
+				playback();
 				break;
 				
 				case '&':			//home button pressed
@@ -104,7 +103,7 @@ int main(void)
 				break;
 				
 				case '?':			//calibrate button pressed
-				Validate();
+				record_mode();
 				
 				break;
 			}
@@ -162,14 +161,21 @@ void manual_ctrl(void)
 	{
 		while ((PINA & 0x01) != 0)
 		{
-			PORTC = half[stepper_index];
+			for(stepper_index = 0; stepper_index <8; stepper_index++)
+			{
+				PORTC = half[stepper_index];
 
-			while (tick < 10);
-			tick = 0;
-
-			++stepper_index;
-			stepper_index = stepper_index % 8;
-			number++;
+				while (tick < 10);
+				tick = 0;
+			}
+			
+			//++stepper_index;
+			//stepper_index = stepper_index % 8;
+			
+			
+				stepper_counts++;
+			
+			
 		}
 	}
 	
@@ -179,16 +185,29 @@ void manual_ctrl(void)
 		while ((PINA & 0x02) != 0)
 		{
 
-			if (stepper_index == 0)
+			for(stepper_index = 7; stepper_index > 0; stepper_index--)
 			{
-				stepper_index = 7;
-			}
-			PORTC = half[stepper_index];
+				PORTC = half[stepper_index];
 
-			while (tick < 10);
-			tick = 0;
-			--stepper_index;
-			number--;
+				while (tick < 10);
+				tick = 0;
+			}
+		
+
+
+// 			if (stepper_index == 0)
+// 			{
+// 				stepper_index = 7;
+// 				stepper_counts--;
+// 			}
+// 			PORTC = half[stepper_index];
+// 
+// 			while (tick < 10);
+// 			tick = 0;
+// 			--stepper_index;
+
+			stepper_counts--;
+			
 		}
 		// rotate counter clockwise
 	}
@@ -208,42 +227,50 @@ void manual_ctrl(void)
 				switch(record_counter)						//assign motor value
 				{
 					case 0:
-					currentMotor = number;			//stepper motor
+					currentMotor = stepper_counts;			//stepper motor
 					break;
 
 					case 1:
-					currentMotor = OCR1A;			//arm servo
+					currentMotor = OCR1B;			//arm servo
 					break;
 
 					case 2:
-					currentMotor = OCR1B;			//plunger servo
+					currentMotor = OCR1A;			//plunger servo
 					break;
 
 					case 3:
-					currentMotor = OCR1A;			//arm servo
+					currentMotor = OCR1B;			//arm servo
 					break;
 
 					case 4:
-					currentMotor = number			//stepper motor
+					currentMotor = stepper_counts;			//stepper motor
 					break;
 
 					case 5:
-					currentMotor = OCR1A			//arm servo
+					currentMotor = OCR1B;			//arm servo
 					break;
 
 					case 6:
-					currentMotor = OCR1B;			//plunger servo
+					currentMotor = OCR1A;			//plunger servo
 					break;
 				}
-
+				String_out("Before EEPROM ");
 				toEEPROM[record_counter] = currentMotor;
+				//Num_out(currentMotor);
 				String_out("Recorded");
+				//String_out(currentMotor);
 				record_counter++;
 			}
 			else
 			{
 				record_counter = 0;
 				String_out("Done Recording All Steps");
+				//String_out(toEEPROM);
+				//send to eeprom
+				//EEPROM_write_string(Address_EEPROM, toEEPROM);
+				//String_out("EEPROM DONE");
+				//String_out(toEEPROM);
+				
 				edit_mode = 0;								//exit from the function
 			}
 
@@ -266,10 +293,10 @@ void startup(void)
 	Init_IO();
 	Timer_Init();
 	init_ADC();
-	stepper_home(); // return to home position (stepper)
-
 	Init_LCD();
 	Init_USART();
+	
+	stepper_home(); // return to home position (stepper)
 }
 
 void Validate(void)
@@ -374,14 +401,33 @@ void stepper_home(void)
 	OCR1A = 3800;
 	OCR1B = 2400;
 
+	for (uint16_t i =0;i < 50;i++)	//repeat as many times as recorded value
+	{
+		for(stepper_index = 7; stepper_index>0 ;stepper_index--) //go cw
+		{
+			PORTC = half[stepper_index];
+			while (tick < 5);
+			tick = 0;
+		}
+	}
+	
 	while ((PINK & Roller) != 0)
 	{
 		PORTC = half[stepper_index];
-		while (tick < 10);
+		while (tick < 5);
 		tick = 0;
 		++stepper_index;
 		stepper_index = stepper_index % 8;
 		
+	}
+	for (uint16_t i =0;i < 40;i++)	//repeat as many times as recorded value
+	{
+		for(stepper_index = 0; stepper_index<8 ;stepper_index++)	//go CWW
+		{
+			PORTC = half[stepper_index];
+			while (tick < 5);
+			tick = 0;
+		}
 	}
 	String_out("Home position reached");
 }

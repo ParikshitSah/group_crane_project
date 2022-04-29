@@ -9,7 +9,7 @@
 #include "EEPROM.h"				//include header files
 
 
-void EEPROM_write_one_char(uint16_t uiAddress, uint8_t ucData)		//write one char to EEPROM
+void EEPROM_write_one_char(uint16_t uiAddress, int16_t ucData)		//write one char to EEPROM
 {
 	
 	
@@ -26,14 +26,14 @@ void EEPROM_write_one_char(uint16_t uiAddress, uint8_t ucData)		//write one char
 }
 
 
-void EEPROM_write_string(uint16_t uiAddress, char *ucData)			//write string from EEPROM
+void EEPROM_write_string(uint16_t uiAddress, int16_t *ucData)			//write string from EEPROM
 {
 
 	while(*ucData != '\0')											//until \0 is received
 	{
 		
 		EEPROM_write_one_char(uiAddress, *ucData);					//write char to address
-		uiAddress++;												//increment address
+		uiAddress + 2;												//increment address
 		ucData++;													//increment data 
 	}
 
@@ -55,10 +55,10 @@ char EEPROM_read(uint16_t uiAddress)								//read one char from EEPROM
 }
 
 
-void EEPROM_read_string(uint16_t uiAddress, char *EEPROM_buff_ptr)		//read string stored in EEPROM
+void EEPROM_read_string(uint16_t uiAddress, int16_t *EEPROM_buff_ptr)		//read string stored in EEPROM
 {
 	
-	char text;										//declare text variable
+	int16_t text;										//declare text variable
 		
 	while(*(EEPROM_buff_ptr-1) != 0xFF)				//until the address is 0xFF which means empty
 	{

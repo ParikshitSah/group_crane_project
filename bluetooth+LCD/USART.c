@@ -41,6 +41,17 @@ void String_out(char *string)
 	
 	
 }
+void Num_out(int16_t *string)
+{
+	for(int i =0; i<2;i++)
+	{
+		
+		UART_out(*string);
+		string++;
+	}
+	
+	
+}
 
 ISR(USART0_RX_vect)
 {

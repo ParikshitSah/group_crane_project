@@ -12,10 +12,10 @@
 #include <avr/io.h>
 #include <string.h>
 
-void EEPROM_write_one_char(uint16_t uiAddress, uint8_t ucData);
-void EEPROM_write_string(uint16_t uiAddress, char *ucData);
+void EEPROM_write_one_char(uint16_t uiAddress, int16_t ucData);
+void EEPROM_write_string(uint16_t uiAddress, int16_t *ucData);
 char EEPROM_read(uint16_t uiAddress);
-void EEPROM_read_string(uint16_t uiAddress, char *EEPROM_buff_ptr);
+void EEPROM_read_string(uint16_t uiAddress, int16_t *EEPROM_buff_ptr);
 
 
 

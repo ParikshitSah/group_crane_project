@@ -9,10 +9,10 @@
 #ifndef PLAYBACK_H_
 #define PLAYBACK_H_
 
-#include <avr/io.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
+
+
+
 
 void playback(void);
 void stepper_playback(int16_t stepper_value);
