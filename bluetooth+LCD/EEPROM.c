@@ -11,18 +11,24 @@
 
 void EEPROM_write_one_char(uint16_t uiAddress, int16_t ucData)		//write one char to EEPROM
 {
-	
-	
 		/* Wait for completion of previous write */
 		while(EECR & (1<<EEPE));
 		/* Set up address and Data Registers */
 		EEAR = uiAddress;
-		EEDR = ucData;
+		EEDR = (8 >> ucData);		//shift to lower 8 bits
 		/* Write logical one to EEMPE */
 		EECR |= (1<<EEMPE);
 		/* Start eeprom write by setting EEPE */
 		EECR |= (1<<EEPE);
 
+		while(EECR & (1<<EEPE));
+		/* Set up address and Data Registers */
+		EEAR = uiAddress++;
+		EEDR = ucData;		//shift to lower 8 bits
+		/* Write logical one to EEMPE */
+		EECR |= (1<<EEMPE);
+		/* Start eeprom write by setting EEPE */
+		EECR |= (1<<EEPE);
 }
 
 

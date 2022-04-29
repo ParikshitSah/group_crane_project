@@ -10,6 +10,16 @@
 #define MAIN_H_
 
 #define Address_EEPROM 0x0000							//define EEPROM address
+#define Address_Step1 0x0003
+#define Address_Step2 0x0005
+#define Address_Step3 0x0007
+#define Address_Step4 0x0009
+#define Address_Step5 0x00B0
+#define Address_Step6 0x00D0
+#define Address_Step7 0x00F0
+
+
+
 
 #include <avr/io.h>						
 #include <util/delay.h>				//include delay library
@@ -44,5 +54,5 @@ uint8_t access;
 uint8_t edit_mode;
 int16_t stepper_counts;
 int16_t toEEPROM[7] ;
-
+uint16_t currentAddress;
 #endif /* MAIN_H_ */

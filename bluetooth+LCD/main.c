@@ -228,48 +228,58 @@ void manual_ctrl(void)
 				{
 					case 0:
 					currentMotor = stepper_counts;			//stepper motor
+					//store to eeprom right shifted
+					//store to eeprom normal
+
+					currentAddress = Address_Step1;
+
+
 					break;
 
 					case 1:
 					currentMotor = OCR1B;			//arm servo
+					currentAddress = Address_Step2;
 					break;
 
 					case 2:
 					currentMotor = OCR1A;			//plunger servo
+					currentAddress = Address_Step3;
 					break;
 
 					case 3:
 					currentMotor = OCR1B;			//arm servo
+					currentAddress = Address_Step4;
 					break;
 
 					case 4:
 					currentMotor = stepper_counts;			//stepper motor
+					currentAddress = Address_Step5;
 					break;
 
 					case 5:
 					currentMotor = OCR1B;			//arm servo
+					currentAddress = Address_Step6;
 					break;
 
 					case 6:
 					currentMotor = OCR1A;			//plunger servo
+					currentAddress = Address_Step7;
 					break;
 				}
 				String_out("Before EEPROM ");
+
+				EEPROM_write_one_char(currentAddress, currentMotor ); //send to eeprom
+
 				toEEPROM[record_counter] = currentMotor;
-				//Num_out(currentMotor);
+				
 				String_out("Recorded");
-				//String_out(currentMotor);
+				
 				record_counter++;
 			}
 			else
 			{
 				record_counter = 0;
 				String_out("Done Recording All Steps");
-				//String_out(toEEPROM);
-				//send to eeprom
-				//EEPROM_write_string(Address_EEPROM, toEEPROM);
-				//String_out("EEPROM DONE");
-				//String_out(toEEPROM);
 				
 				edit_mode = 0;								//exit from the function
 			}
