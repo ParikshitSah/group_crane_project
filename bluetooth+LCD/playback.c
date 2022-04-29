@@ -18,20 +18,22 @@ void playback(void)
 	//String_out("reading from the EEPROM");
 	//String_out(motor_arr);
 	stepper_playback(motor_arr[0]);
-	//slow_servo(motor_arr[1]);
-	while (tick < 500);
+	while (tick < 200);
 	tick = 0;
-	slow_servo(motor_arr[1]);
-	while (tick < 500);
+	//slow_servo(motor_arr[1]);
+	OCR1B = motor_arr[1];
+	while (tick < 200);
 	tick = 0;
 	OCR1A = motor_arr[2];
-	while (tick < 500);
+	while (tick < 200);
 	tick = 0;
-	slow_servo(motor_arr[3]);
-	//OCR1B = motor_arr[3];
+	//slow_servo(motor_arr[3]);
+	OCR1B = motor_arr[3];
 	stepper_playback(motor_arr[4]);
 	//slow_servo(motor_arr[5]);
-	slow_servo(motor_arr[5]);
+	while (tick < 200);
+	tick = 0;
+	OCR1B = motor_arr[5];
 	OCR1A = motor_arr[6];
 
 	return;
@@ -68,10 +70,10 @@ void stepper_playback(int16_t stepper_value)
 	}
 }
 
-void slow_servo(uint16_t servo_value)
+void slow_servo(uint16_t servo_value)										//BROKEN
 {
 	uint16_t pwm_buf = 0;	//buffer before assigning to OCR
-	uint8_t steps = 30;	//servo_value will be divided into this many steps
+	uint8_t steps = 50;	//servo_value will be divided into this many steps
 	uint8_t pwm_inc;	//value increment for each step
 	uint8_t inc_rem;	//value increment for last step
 	//uint8_t initial_value;	//initial OCR value
@@ -82,16 +84,28 @@ void slow_servo(uint16_t servo_value)
 	inc_rem = servo_value % steps;
 	pwm_buf = OCR1B;
 
-	for(uint8_t i=0; i<steps; i++)	//repeat steps
+	if(OCR1B < servo_value)
 	{
-		pwm_buf += pwm_inc;
-		OCR1B = pwm_buf;	// assign to arm
-		while(tick<100);	//4ms delay per step
-		tick = 0;
+		for(uint8_t i=0; i<steps; i++)	//repeat steps
+		{
+			pwm_buf += pwm_inc;
+			OCR1B = pwm_buf;	// assign to arm
+			while(tick<100);	//4ms delay per step
+			tick = 0;
+		}
+	}
+	else
+	{
+		for(uint8_t i=0; i<steps; i++)	//repeat steps
+		{
+			pwm_buf -= pwm_inc;
+			OCR1B = pwm_buf;	// assign to arm
+			while(tick<100);	//4ms delay per step
+			tick = 0;
+		}
 	}
 	
-	pwm_buf += inc_rem;	//increment last value
-	OCR1B = pwm_buf;
+	
 
 	return;
 }
